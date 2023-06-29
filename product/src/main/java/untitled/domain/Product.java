@@ -20,6 +20,12 @@ public class Product {
     @Embedded
     private Rating rating;
 
+    @PostLoad
+    public void setRatingTopicId(){
+        this.rating = new Rating();
+        this.rating.setTopicId("product_" + this.id);
+    }
+
     public static ProductRepository repository() {
         ProductRepository productRepository = ProductApplication.applicationContext.getBean(
             ProductRepository.class

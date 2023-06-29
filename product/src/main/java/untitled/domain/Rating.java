@@ -8,8 +8,6 @@ import org.springframework.beans.BeanUtils;
 
 @Embeddable
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Rating {
 
     private String topicId;

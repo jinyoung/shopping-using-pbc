@@ -28,7 +28,7 @@
                     to="/" 
                     @click="goHome()"
                     style="margin-left:10px; font-size:20px; cursor:pointer;"
-	        ></span> 
+            ></span>
                 <v-spacer></v-spacer>
 
             </v-app-bar>

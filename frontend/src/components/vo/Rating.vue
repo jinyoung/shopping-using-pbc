@@ -4,17 +4,16 @@
             {{label}}
         </v-card-title>
         <v-card-text v-if="value">
-            <div v-if="editMode" style="margin-top:-20px;">
-                <v-text-field type="number" label="Rate" v-model="value.rate" placeholder="1~5"/>
-            </div>
             <div v-if="!editMode">
-                <v-rating color="warning" readonly v-model="value.rate"></v-rating>
+                <v-rating color="warning" readonly v-model="value.averageRate" @input="sendRating()"></v-rating>
             </div>
         </v-card-text>
     </div>
 </template>
 
 <script>
+    const axios = require('axios').default;
+
     export default {
         name:"Rating",
         props: {
@@ -22,18 +21,28 @@
             value : Object,
             label : String,
         },
-        created(){
-            if(!this.value) {
-                this.value = {
-                    'rate': 0,
-                };
-            }
+        async created(){
+                try{
+                    let data = await axios.get(axios.fixUrl('/ratings/' + this.value.topicId));
+                    this.value = data.data;
+
+                }catch(e){
+
+                    this.value = {
+                        'rate': 0,
+                    };
+
+                }
 
         },
         watch: {
             value(newVal) {
                 this.$emit('input', newVal);
             },
+            sendRating(rate){
+                this.value.rate = rate;
+                axios.put(axios.fixUrl(`/ratings/${this.value.topicId}/rate`), this.value.averageRate);
+            }
         },
     }
 </script>
